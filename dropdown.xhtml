@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<head>
+    <title>Prueba</title>
+    <style>
+        body {
+            background-color: #b3e0ff; /* Fondo celeste */
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card h:form {
+            display: flex;
+            flex-direction: row; /* Para que los elementos estén en fila */
+            align-items: center;
+            gap: 20px; /* Espacio entre los elementos */
+        }
+
+        .card p:panelGrid {
+            display: flex;
+            flex-direction: row; /* Distribuir los elementos horizontalmente */
+            justify-content: space-between; /* Espaciado entre los elementos */
+            align-items: center;
+        }
+
+        .card p:selectOneMenu {
+            width: 180px;
+        }
+
+        .card p:outputLabel {
+            margin-right: 10px;
+        }
+
+        .card p:commandButton {
+            margin-top: 10px;
+            background-color: #4CAF50; /* Color verde */
+            color: white;
+        }
+
+        .card p:commandButton:hover {
+            background-color: #45a049; /* Color verde oscuro al pasar el ratón */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+
+            <p:panel header="Seleccione localidad" style="margin-bottom:10px;">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel for="country" value="Country: "/>
+                    <p:selectOneMenu id="country" value="#{basicView.country}" style="width:150px">
+                        <p:ajax listener="#{basicView.onCountryChange}" update=":form:city"/> <!-- Actualiza la ciudad -->
+                        <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="USAAA" itemValue="USAAA"/>
+                        <f:selectItem itemLabel="Germany" itemValue="Germany"/>
+                        <f:selectItem itemLabel="Brazil" itemValue="Brazil"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="city" value="City: "/>
+                    <p:selectOneMenu id="city" value="#{basicView.city}" style="width:150px">
+                        <f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{basicView.cities}" />  <!-- Esta es la lista de ciudades -->
+                    </p:selectOneMenu>
+                </h:panelGrid>
+
+                <p:divider />
+
+                <p:commandButton value="Submit" update="msgs" action="#{basicView.displayLocation}" icon="pi pi-check"/>
+            </p:panel>
+        </h:form>
+    </div>
+</body>
+</html>
